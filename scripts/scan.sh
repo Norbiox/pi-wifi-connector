@@ -1,3 +1,3 @@
 #!/bin/bash
 
-sudo islist wlan0 scan | grep ESSID
+sudo iwlist wlan0 scan | grep ESSID
