@@ -1,0 +1,2 @@
+#DHCPD_ENABLED="no"
+DHCPD_OPTS="-S"
