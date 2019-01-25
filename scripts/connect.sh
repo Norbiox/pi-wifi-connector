@@ -1,7 +1,7 @@
 #!/bin/bash
 
-: ${WPA_CONFIG_FILE:?"WPA_CONFIG_FILE has not been set"}
-: ${WPA_STATUS_FILE:?"WPA_STATUS_FILE has not been set"}
+WPA_CONFIG_FILE=$1
+WPA_STATUS_FILE=$2
 
 sudo ifconfig wlan0 up
 sudo ip addr flush dev wlan0
