@@ -1,0 +1,12 @@
+[Unit]
+Description=pi-wifi-connector application service
+
+[Service]
+User=pi
+Restart=always
+ExecStart=/bin/bash -c 'sudo ./piwificonnector/app.py'
+WorkingDirectory=/home/pi/pi-wifi-connector
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

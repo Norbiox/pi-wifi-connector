@@ -15,6 +15,10 @@ sudo systemctl enable hostapd.service
 sudo systemctl start udhcpd.service
 sudo systemctl enable udhcpd.service
 
-
 sudo chown root:root scripts/connect.sh
 sudo chmod 755 scripts/connect.sh
+
+sudo cp conf/service /lib/systemd/system/pi-wifi-connector.service
+
+sudo systemctl start pi-wifi-connector.service
+sudo systemctl enable pi-wifi-connector.service
