@@ -1,0 +1,179 @@
+:root {
+  --black: rgba(34, 34, 34, 1);
+  --pink: rgba(217, 184, 196, 1);
+  --white: rgba(255, 255, 255, 1);
+  --red: rgba(214, 34, 70, 1);
+  --violet: rgba(75, 29, 63, 1);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--violet); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--violet); 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--red); 
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+
+input[type="password"] {
+  font: large Verdana,sans-serif;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  color: var(--black);
+  border: 0px;
+  margin: 0rem 0rem 1rem 0rem;
+  width: 50%;
+}
+
+
+input[type="submit"] {
+  border: 0;
+  padding: 1rem 2rem;
+  background-color: var(--red);
+  color: var(--white);
+  font-size: 1.1em;
+  cursor: pointer;
+}
+
+
+input[type="submit"]:hover {
+  background-color: var(--violet);
+}
+
+
+body {
+  font-family: Arial;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--pink);
+}
+
+
+header {
+  padding: 0rem;
+  text-align: center;
+  background-color: var(--red)
+}
+
+
+main {
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  padding: 1rem;
+  box-sizing: border-box;
+  flex: auto;
+}
+
+
+#connect-box {
+  float: left;
+  width: 65%;
+  padding: 0rem 1rem 1rem 1rem;
+  background: rgba(0,0,0,0.1);
+  box-sizing: border-box;
+  margin: 0rem 0rem 1rem 0rem;
+}
+
+
+.networks-list ul {
+  display: flex;
+  flex-direction: column;
+  list-style-type:none;
+  padding: 0;
+  margin: 0rem 0rem 2rem 0rem;
+}
+
+
+.networks-list ul label, .networks-list ul input {
+  display: block;
+  width: 50%;
+}
+
+
+.networks-list ul input[type="radio"] {
+  opacity: 0.01;
+  z-index: 100;
+}
+
+
+.networks-list ul input[type="radio"]:checked + label,
+.Checked + label {
+  background: var(--violet);
+  color: var(--white);
+}
+
+
+.networks-list ul label {
+  background: var(--red);
+  text-align: center;
+  padding: 0.5rem;
+  cursor: pointer;
+  z-index: 90;
+}
+
+
+.networks-list ul label:hover {
+  background: var(--pink);
+}
+
+
+#disconnect-box {
+  justify-content: center;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+
+#disconnect-button {
+  border: 0;
+  padding: 1rem 2rem;
+  background-color: var(--black);
+  color: var(--white);
+  font-size: 1.2em;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+#disconnect-button:hover {
+  background-color: var(--violet);
+}
+
+
+footer {
+  padding: 0.5rem;
+  background-color: var(--black);
+  text-align: center;
+  color: var(--white)
+}
+
+
+@media screen and (max-width: 820px) {
+  /* For mobile phones: */
+  #connect-box {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .networks-list ul {
+    width: 100%;
+  }
+}
