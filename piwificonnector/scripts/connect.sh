@@ -5,8 +5,9 @@ WPA_STATUS_FILE=$2
 
 echo "Stopping Hotspot Mode ..."
 sudo systemctl stop hostapd.service
-sudo ifconfig wlan0 up
 sudo ip addr flush dev wlan0
+sudo ifconfig wlan0 down
+sudo ifconfig wlan0 up
 sudo truncate -s 0 $WPA_STATUS_FILE
 
 echo "Trying to connect with wi-fi network ..."

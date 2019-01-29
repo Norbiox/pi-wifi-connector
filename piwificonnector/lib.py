@@ -60,7 +60,6 @@ class WifiConnector:
             raise FileNotFoundError("WPA config file not found at {}".format(
                 config_file_path
             ))
-        self.disconnect_wifi()
         cmd = "sudo -E scripts/connect.sh '{}' '{}'".format(
             config_file_path, str(self.status_file.resolve())
         )
