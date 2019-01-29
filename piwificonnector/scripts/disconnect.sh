@@ -11,6 +11,8 @@ sudo ifconfig wlan0 up
 
 echo "restarting hostapd ..."
 sudo /etc/init.d/networking restart
-sudo systemctl restart hostapd.service
+sudo systemctl stop hostapd.service
+sleep 1
+sudo systemctl start hostapd.service
 
 echo "Hotspot Mode activated"

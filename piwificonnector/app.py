@@ -13,7 +13,7 @@ app.secret_key = os.getenv('SECRET_KEY')
 connector = WifiConnector(
     app.config['WPA_CONFIG_FILE'],
     app.config['WPA_STATUS_FILE'],
-    autoswitch=True
+    autoconnect=True
 )
 
 
@@ -32,8 +32,7 @@ def panel():
 
 @app.route('/dc')
 def disconnect_wifi():
-    connector.disconnect_wifi()
-    os.remove(connector.config_file)
+    connector.disconnect_wifi(remove_saved_credentials=True)
     return redirect(url_for('panel'))
 
 

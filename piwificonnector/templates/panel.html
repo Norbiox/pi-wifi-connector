@@ -53,7 +53,7 @@
     </section>
     
     <section id="health-check-box">
-      <a href="{{ url_for('health') }}">
+      <a href="{{ url_for('health_check') }}">
         <button id="health-check-button">
           {% with messages = get_flashed_messages() %}
             {% if messages %}

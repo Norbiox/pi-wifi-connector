@@ -14,15 +14,17 @@ class BashScriptError(Exception):
 
 class WifiConnector:
 
-    def __init__(self, wpa_config_file, wpa_status_file, autoswitch=False):
+    def __init__(self, wpa_config_file, wpa_status_file, autoconnect=False):
         self.config_file = Path(wpa_config_file)
         self.status_file = Path(wpa_status_file)
         self.status_file.touch()
-        if autoswitch and self.config_file.exists():
+        if autoconnect and self.config_file.exists():
             try:
                 self.connect_wifi()
             except BashScriptError:
                 self.disconnect_wifi()
+        else:
+            self.disconnect_wifi()
 
     @classmethod
     def is_online(cls):
@@ -67,9 +69,11 @@ class WifiConnector:
             return 0
         raise BashScriptError("An error occured when run connect.sh")
 
-    def disconnect_wifi(self):
+    def disconnect_wifi(self, remove_saved_credentials=False):
         output = run("sudo -E scripts/disconnect.sh".split())
         if not output.returncode:
+            if remove_saved_credentials and self.config_file.exists():
+                self.config_file.unlink()
             return 0
         raise BashScriptError("An error occured when run disconnect.sh")
 
