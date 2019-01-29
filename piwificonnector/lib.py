@@ -4,6 +4,7 @@ import re
 from getpass import getpass
 from pathlib import Path
 from subprocess import run, PIPE
+from urllib.request import urlopen
 
 
 class BashScriptError(Exception):
@@ -21,6 +22,16 @@ class WifiConnector:
                 self.connect_wifi()
             except BashScriptError:
                 self.disconnect_wifi()
+
+    @classmethod
+    def is_online(cls):
+        for i in range(3):
+            try:
+                urlopen("https://google.com")
+                return True
+            except Exception as e:
+                continue
+        return False
 
     @classmethod
     def get_available_networks(cls):

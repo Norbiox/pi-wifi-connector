@@ -32,16 +32,15 @@ def panel():
 
 @app.route('/dc')
 def disconnect_wifi():
-    disconnect_wifi()
+    connector.disconnect_wifi()
     os.remove(connector.config_file)
     return redirect(url_for('panel'))
 
 
 @app.route('/health')
 def health_check():
-    flash("Everything OK!")
+    if connector.is_online():
+        flash("Device is online!")
+    else:
+        flash("Device is offline")
     return redirect(url_for('panel'))
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, use_reloader=False)
