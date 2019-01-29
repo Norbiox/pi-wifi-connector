@@ -1,9 +1,11 @@
 #!/usr/bin python3
 import netifaces as ni
+import os
 import re
 from getpass import getpass
 from pathlib import Path
 from subprocess import run, PIPE
+from urllib.request import urlopen
 
 
 class BashScriptError(Exception):
@@ -12,15 +14,28 @@ class BashScriptError(Exception):
 
 class WifiConnector:
 
-    def __init__(self, wpa_config_file, wpa_status_file, autoswitch=False):
+    def __init__(self, wpa_config_file, wpa_status_file, autoconnect=False):
         self.config_file = Path(wpa_config_file)
         self.status_file = Path(wpa_status_file)
         self.status_file.touch()
-        if autoswitch and self.config_file.exists():
+        if autoconnect and self.config_file.exists():
             try:
                 self.connect_wifi()
-            except BashScriptError:
+            except Exception:
                 self.disconnect_wifi()
+        else:
+            self.disconnect_wifi()
+            self.config_file.touch()
+
+    @classmethod
+    def is_online(cls):
+        for i in range(3):
+            try:
+                urlopen("https://google.com")
+                return True
+            except Exception as e:
+                continue
+        return False
 
     @classmethod
     def get_available_networks(cls):
@@ -41,29 +56,33 @@ class WifiConnector:
         return ni.ifaddresses(interface)[ni.AF_INET][0]['addr']
 
     def connect_wifi(self):
-        config_file_path = str(self.config_file.resolve())
         if not self.config_file.exists():
             raise FileNotFoundError("WPA config file not found at {}".format(
-                config_file_path
+                str(self.config_file)
             ))
-        self.disconnect_wifi()
-        cmd = "sudo -E scripts/connect.sh '{}' '{}'".format(
-            config_file_path, str(self.status_file.resolve())
+        print("Trying to connect with credentials from file {}".format(
+            str(self.config_file)
+        ))
+        cmd = "sudo -E scripts/connect.sh {} {}".format(
+            str(self.config_file), str(self.status_file)
         )
         output = run(cmd.split())
         if not output.returncode:
             return 0
         raise BashScriptError("An error occured when run connect.sh")
 
-    def disconnect_wifi(self):
+    def disconnect_wifi(self, remove_saved_credentials=False):
         output = run("sudo -E scripts/disconnect.sh".split())
         if not output.returncode:
+            if remove_saved_credentials and self.config_file.exists():
+                self.config_file.unlink()
             return 0
         raise BashScriptError("An error occured when run disconnect.sh")
 
     def set_wifi_credentials(self, ssid: str, key: str):
         if not 8 <= len(key) <= 63:
             raise ValueError("Key length must be from 8 to 63")
+        print("Saving credentials for network: {}".format(ssid))
         output = run(['wpa_passphrase', ssid, key], stdout=PIPE)
         config_string = output.stdout.decode("utf-8")
         if "\n" not in config_string:
@@ -71,7 +90,7 @@ class WifiConnector:
                 "wpa_passphrase couldn't generate proper configuration, " +
                 "check entered network credentials"
             )
-        with open(self.config_file, 'w+') as f:
+        with self.config_file.open('w+') as f:
             f.write(config_string)
 
 

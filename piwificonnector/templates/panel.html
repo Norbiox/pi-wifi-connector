@@ -25,7 +25,7 @@
           <ul>
             {% for network in networks %}
             <li>
-              <input id="{{ network }}" type="radio" name="ssid"/>
+              <input id="{{ network }}" type="radio" name="ssid" value="{{ network }}"/>
               <label for="{{ network }}">{{ network }}</label>
             </li>
             {% endfor %}
@@ -51,6 +51,21 @@
         <button id="disconnect-button">Go offline!</button>
       </a>
     </section>
+    
+    <section id="health-check-box">
+      <a href="{{ url_for('health_check') }}">
+        <button id="health-check-button">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {{ messages[0] }}
+            {% else %}
+              Is this device online?
+            {% endif %}
+          {% endwith %}
+        </button>
+      </a>
+    </section>
+    
   </main>
   
   <footer>

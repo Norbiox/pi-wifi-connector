@@ -5,8 +5,9 @@ WPA_STATUS_FILE=$2
 
 echo "Stopping Hotspot Mode ..."
 sudo systemctl stop hostapd.service
-sudo ifconfig wlan0 up
 sudo ip addr flush dev wlan0
+sudo ifconfig wlan0 down
+sudo ifconfig wlan0 up
 sudo truncate -s 0 $WPA_STATUS_FILE
 
 echo "Trying to connect with wi-fi network ..."
@@ -17,7 +18,7 @@ sudo wpa_supplicant -B \
     -c $WPA_CONFIG_FILE
 
 declare -i i=0
-declare -i timeout=15
+declare -i timeout=10
 
 while [ $i -le $timeout ]; do
     if grep -iq 'CTRL-EVENT-CONNECTED' $WPA_STATUS_FILE; then
@@ -32,4 +33,4 @@ while [ $i -le $timeout ]; do
     (( i++ ))
     sleep 1
 done
-
+exit 1

@@ -13,7 +13,7 @@ app.secret_key = os.getenv('SECRET_KEY')
 connector = WifiConnector(
     app.config['WPA_CONFIG_FILE'],
     app.config['WPA_STATUS_FILE'],
-    autoswitch=True
+    autoconnect=True
 )
 
 
@@ -25,6 +25,7 @@ def panel():
             connector.set_wifi_credentials(ssid, key)
             connector.connect_wifi()
         except Exception as e:
+            print(e)
             connector.disconnect_wifi()
     return render_template('panel.html',
                            networks=connector.get_available_networks())
@@ -32,16 +33,14 @@ def panel():
 
 @app.route('/dc')
 def disconnect_wifi():
-    disconnect_wifi()
-    os.remove(connector.config_file)
+    connector.disconnect_wifi(remove_saved_credentials=True)
     return redirect(url_for('panel'))
 
 
 @app.route('/health')
 def health_check():
-    flash("Everything OK!")
+    if connector.is_online():
+        flash("Device is online!")
+    else:
+        flash("Device is offline")
     return redirect(url_for('panel'))
-
-
-if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80, use_reloader=False)
