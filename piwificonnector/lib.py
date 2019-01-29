@@ -21,10 +21,11 @@ class WifiConnector:
         if autoconnect and self.config_file.exists():
             try:
                 self.connect_wifi()
-            except BashScriptError:
+            except Exception:
                 self.disconnect_wifi()
         else:
             self.disconnect_wifi()
+            self.config_file.touch()
 
     @classmethod
     def is_online(cls):
@@ -55,13 +56,15 @@ class WifiConnector:
         return ni.ifaddresses(interface)[ni.AF_INET][0]['addr']
 
     def connect_wifi(self):
-        config_file_path = str(self.config_file.resolve())
         if not self.config_file.exists():
             raise FileNotFoundError("WPA config file not found at {}".format(
-                config_file_path
+                str(self.config_file)
             ))
-        cmd = "sudo -E scripts/connect.sh '{}' '{}'".format(
-            config_file_path, str(self.status_file.resolve())
+        print("Trying to connect with credentials from file {}".format(
+            str(self.config_file)
+        ))
+        cmd = "sudo -E scripts/connect.sh {} {}".format(
+            str(self.config_file), str(self.status_file)
         )
         output = run(cmd.split())
         if not output.returncode:
@@ -79,6 +82,7 @@ class WifiConnector:
     def set_wifi_credentials(self, ssid: str, key: str):
         if not 8 <= len(key) <= 63:
             raise ValueError("Key length must be from 8 to 63")
+        print("Saving credentials for network: {}".format(ssid))
         output = run(['wpa_passphrase', ssid, key], stdout=PIPE)
         config_string = output.stdout.decode("utf-8")
         if "\n" not in config_string:
@@ -86,7 +90,7 @@ class WifiConnector:
                 "wpa_passphrase couldn't generate proper configuration, " +
                 "check entered network credentials"
             )
-        with open(self.config_file, 'w+') as f:
+        with self.config_file.open('w+') as f:
             f.write(config_string)
 
 

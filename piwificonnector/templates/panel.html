@@ -25,7 +25,7 @@
           <ul>
             {% for network in networks %}
             <li>
-              <input id="{{ network }}" type="radio" name="ssid"/>
+              <input id="{{ network }}" type="radio" name="ssid" value="{{ network }}"/>
               <label for="{{ network }}">{{ network }}</label>
             </li>
             {% endfor %}

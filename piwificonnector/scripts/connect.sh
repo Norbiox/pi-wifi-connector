@@ -18,7 +18,7 @@ sudo wpa_supplicant -B \
     -c $WPA_CONFIG_FILE
 
 declare -i i=0
-declare -i timeout=15
+declare -i timeout=10
 
 while [ $i -le $timeout ]; do
     if grep -iq 'CTRL-EVENT-CONNECTED' $WPA_STATUS_FILE; then
@@ -33,4 +33,4 @@ while [ $i -le $timeout ]; do
     (( i++ ))
     sleep 1
 done
-
+exit 1

@@ -25,6 +25,7 @@ def panel():
             connector.set_wifi_credentials(ssid, key)
             connector.connect_wifi()
         except Exception as e:
+            print(e)
             connector.disconnect_wifi()
     return render_template('panel.html',
                            networks=connector.get_available_networks())
