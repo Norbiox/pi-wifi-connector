@@ -23,18 +23,12 @@
         <div class="networks-list">
 
           <ul>
+            {% for network in networks %}
             <li>
-              <input id="pierwsza_siec" type="radio" name="ssid" checked="checked"/>
-              <label for="pierwsza_siec">pierwsza_siec</label>
+              <input id="{{ network }}" type="radio" name="ssid"/>
+              <label for="{{ network }}">{{ network }}</label>
             </li>
-            <li>
-              <input id="inna" type="radio" name="ssid" checked="checked"/>
-              <label for="inna">inna</label>
-            </li>
-            <li>
-              <input id="siec o nieco przydlugiej nazwie" type="radio" name="ssid" checked="checked"/>
-              <label for="siec o nieco przydlugiej nazwie">siec o nieco przydlugiej nazwie</label>
-            </li>
+            {% endfor %}
           </ul>
 
         </div>
@@ -53,7 +47,7 @@
 
     <section id="disconnect-box">
       <h2 class="section-title">or disconnect it and return to hotspot mode.</h2>
-      <a href="www.google.com">
+      <a href="{{ url_for('disconnect_wifi') }}">
         <button id="disconnect-button">Go offline!</button>
       </a>
     </section>
