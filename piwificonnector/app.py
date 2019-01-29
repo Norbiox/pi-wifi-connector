@@ -20,7 +20,7 @@ connector = WifiConnector(
 @app.route('/', methods=['GET', 'POST'])
 def panel():
     if request.method == 'POST':
-        ssid, key = request.form['ssid'], request.form['key']
+        ssid, key = request.form['ssid'], request.form['password']
         try:
             connector.set_wifi_credentials(ssid, key)
             connector.connect_wifi()
