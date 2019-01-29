@@ -1,5 +1,6 @@
 #!/usr/bin python3
 import netifaces as ni
+import os
 import re
 from getpass import getpass
 from pathlib import Path

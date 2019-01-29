@@ -51,6 +51,21 @@
         <button id="disconnect-button">Go offline!</button>
       </a>
     </section>
+    
+    <section id="health-check-box">
+      <a href="{{ url_for('health') }}">
+        <button id="health-check-button">
+          {% with messages = get_flashed_messages() %}
+            {% if messages %}
+              {{ messages[0] }}
+            {% else %}
+              Is this device online?
+            {% endif %}
+          {% endwith %}
+        </button>
+      </a>
+    </section>
+    
   </main>
   
   <footer>
