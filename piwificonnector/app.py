@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import os
+from time import sleep
 
 from flask import flash, Flask, redirect, render_template, request, url_for
 
@@ -44,3 +45,19 @@ def health_check():
     else:
         flash("Device is offline")
     return redirect(url_for('panel'))
+
+
+@app.route('/dc_if_offline')
+def disconnect_if_offline():
+    i = 0
+    while i < 3:
+        if connector.get_current_ip() == '192.168.0.1':
+            break
+        elif connector.is_online():
+            return 'ONLINE'
+        elif i < 2:
+            sleep(2)
+        else:
+            connector.disconnect_wifi()
+        i += 1
+    return 'HOTSPOT_MODE'
