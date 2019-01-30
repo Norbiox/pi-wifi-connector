@@ -140,6 +140,24 @@ INTERFACES = {
     ])
 }
 
+
+APP_SERVICE = {
+    'path': '/lib/systemd/system/pi-wifi-connector.service',
+    'content': '\n'.join([
+        "[Unit]",
+        "Description=pi-wifi-connector application service\n",
+        "[Service]",
+        "User=pi",
+        "Restart=always",
+        "ExecStart=/bin/bash -c '../run.sh'",
+        "WorkingDirectory=/home/pi/pi-wifi-connector/piwificonnector",
+        "RemainAfterExit=yes\n",
+        "[Install]",
+        "WantedBy=multi-user.target"
+    ])
+}
+
+
 print("Please provide hotspot configuration")
 
 ssid = input("SSID of hotspot network: ")
@@ -150,7 +168,7 @@ while not ssid:
 passphrase = ""
 while not passphrase:
     passphrase = getpass("Password to hotspot network: ")
-    if 7 < len(passphrase) < 64:
+    if len(passphrase) < 8 or len(passphrase) > 63:
         passphrase = ""
         print("Password must contain between 8 and 63 characters")
         continue
@@ -166,18 +184,22 @@ while not passphrase:
 print("Writing configuration files")
 print("hostapd...")
 with open(HOSTAPD_CONF['path'], 'w+') as f:
-    f.write(HOSTAPD_CONF['string'].format(ssid=ssid, passphrase=passphrase))
+    f.write(HOSTAPD_CONF['content'].format(ssid=ssid, passphrase=passphrase))
 with open(HOSTAPD['path'], 'w+') as f:
-    f.write(HOSTAPD['string'])
+    f.write(HOSTAPD['content'])
 
 print("udhcpd...")
 with open(UDHCPD_CONF['path'], 'w+') as f:
-    f.write(UDHCPD_CONF['string'])
+    f.write(UDHCPD_CONF['content'])
 with open(UDHCPD['path'], 'w+') as f:
-    f.write(UDHCPD['string'])
+    f.write(UDHCPD['content'])
 
 print("interfaces...")
 with open(INTERFACES['path'], 'w+') as f:
-    f.write(INTERFACES['string'])
+    f.write(INTERFACES['content'])
+
+print("app service...")
+with open(APP_SERVICE['path'], 'w+') as f:
+    f.write(APP_SERVICE['content'])
 
 print("Done.")
