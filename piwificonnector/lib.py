@@ -2,10 +2,13 @@
 import netifaces as ni
 import os
 import re
+import socket
 from getpass import getpass
 from pathlib import Path
 from subprocess import run, PIPE
-from urllib.request import urlopen
+
+
+REMOTE_SERVER = "www.google.com"
 
 
 class BashScriptError(Exception):
@@ -29,12 +32,12 @@ class WifiConnector:
 
     @classmethod
     def is_online(cls):
-        for i in range(3):
-            try:
-                urlopen("https://google.com")
-                return True
-            except Exception as e:
-                continue
+        try:
+            host = socket.gethostbyname(REMOTE_SERVER)
+            socket.create_connection((host, 80), 2)
+            return True
+        except Exception as e:
+            pass
         return False
 
     @classmethod
