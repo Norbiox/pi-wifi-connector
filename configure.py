@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from getpass import getpass
-from pathlib import Path
 
 
 HOSTAPD_CONF = {
