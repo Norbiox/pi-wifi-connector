@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PiWifiConnector - {% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+</head>
+<body>
+<!-- Start your code here -->
+
+  <header>
+    <h1 class="title">
+        {% block title %}{% endblock %}
+    </h1>
+  </header>
+  
+  <main>
+      {% block main %}{% endblock %}
+  </main>
+  
+  <footer>
+    Created by Norbert Chmiel
+  </footer>
+
+<!-- End your code here -->
+</body>
+</html>

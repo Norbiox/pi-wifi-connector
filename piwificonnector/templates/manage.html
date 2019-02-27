@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %} 
+  Manage Raspberry Pi wi-fi connection
+{% endblock %}
+
+{% block main %}
+  <section id="connect-box">
+    <h2 class="section-title">Connect your device with wi-fi network ...</h2>
+    <form method="post">
+
+      <div class="networks-list">
+
+        <ul>
+          {% for network in networks %}
+          <li>
+            <input id="{{ network }}" type="radio" name="ssid" value="{{ network }}"/>
+            <label for="{{ network }}">{{ network }}</label>
+          </li>
+          {% endfor %}
+        </ul>
+
+      </div>
+
+      <div class="password">
+        <h3 class="password-title">Password:</h3>
+        <input type="password" name="password"/>
+      </div>
+
+      <div class="submit">
+        <input type="submit" value="Connect!">
+      </div>
+
+    </form>
+  </section>
+
+  <section id="disconnect-box">
+    <h2 class="section-title">or disconnect it and return to hotspot mode.</h2>
+    <a href="{{ url_for('disconnect_wifi') }}">
+      <button id="disconnect-button">Go offline!</button>
+    </a>
+  </section>
+  
+  <section id="health-check-box">
+    <a href="{{ url_for('health_check') }}">
+      <button id="health-check-button">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {{ messages[0] }}
+          {% else %}
+            Is this device online?
+          {% endif %}
+        {% endwith %}
+      </button>
+    </a>
+  </section>
+{% endblock %}
