@@ -64,6 +64,15 @@ main {
 }
 
 
+#login-form {
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  top: 2em;
+}
+
+
 #connect-box {
   float: left;
   width: 65%;

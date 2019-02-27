@@ -15,7 +15,6 @@ class AuthenticationError(Exception):
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
-app.secret_key = os.getenv('SECRET_KEY')
 
 connector = WifiConnector(
     app.config['WPA_CONFIG_FILE'],
