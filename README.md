@@ -24,7 +24,9 @@ After reboot your Raspberry Pi should automatically turn itself into hotspot mod
         http://192.168.0.1:8080/
         
 Provide the same password as to the hotspot.
-You should see a nice, intuitive, and responsive application, that allows you to connect Raspberry Pi with available network, disconnect it (and return to hotspot mode) and check internet connection.
+You should see a nice, intuitive, and responsive interface, that allows you to connect Raspberry Pi with available network, disconnect it (and return to hotspot mode) and check internet connection.
+
+![alt text](https://raw.githubusercontent.com/Norbiox/pi-wifi-connector/master/images/Screenshot%20from%202019-02-27%2012-39-45.png)
 
 ### Connect device with wi-fi
 
