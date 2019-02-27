@@ -23,6 +23,7 @@ After reboot your Raspberry Pi should automatically turn itself into hotspot mod
 
         http://192.168.0.1:8080/
         
+Provide the same password as to the hotspot.
 You should see a nice, intuitive, and responsive application, that allows you to connect Raspberry Pi with available network, disconnect it (and return to hotspot mode) and check internet connection.
 
 ### Connect device with wi-fi
@@ -36,6 +37,4 @@ To disconnect device from network and turn it back to hotspot mode, find address
 
         http://<address in local network>:8080/
         
-Then click "Go offline!" button.
-        
-NOTE: Yes, at this point Raspberry Pi's application will be available for everyone in local network and everyone can disconnect it. It will be fixed in newer versions.
+Provide password and after that click "Go offline!" button.
